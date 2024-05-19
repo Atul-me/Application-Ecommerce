@@ -1,0 +1,11 @@
+{
+  "name": "ecom",
+  "version": "1.0.0",
+  "description": "An Ecommerce Application using technologies React.js(Frontend), Node.js(Server side), Express.js(Handling operation), MongoDB(Database)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Atul Kumar",
+  "license": "MIT"
+}
