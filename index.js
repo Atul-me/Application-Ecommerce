@@ -14,7 +14,7 @@ connectDB();
 app.use(express.json());
 app.use(morgan('dev'));
 
-app.get('/api/v1/auth', authRoutes);
+app.get("/api/v1/auth", authRoutes);
 app.get('/', (req,res) => {res.send({message:"heell"})});
 
 
