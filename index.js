@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 app.use("/api/v1/auth", authRoutes);
-app.get('/', (req,res) => {res.send({message:"heell"})});
+// app.get('/', (req,res) => {res.send({message:"heell"})});
 
 
 const PORT = process.env.PORT || 5000;
