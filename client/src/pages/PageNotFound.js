@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const PageNotFound = () => {
   return (
-    <Layout>
+    <Layout title={"Page Not Found"}>
       <div className="flex flex-col items-center justify-center min-h-screen mb-4 ">
         <img
           src="https://www.digitalmesh.com/blog/wp-content/uploads/2020/05/404-error.jpg"

@@ -3,7 +3,7 @@ import Layout from '../components/Layout/Layout'
 
 const About = () => {
   return (
-    <Layout>
+    <Layout title={"About Us"}>
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 mt-5">
         <div className="flex flex-col md:flex-row items-start space-y-8 md:space-y-0 md:space-x-8">
           {/* Image on the left */}

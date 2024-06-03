@@ -4,7 +4,7 @@ import { FaInstagram, FaFacebook } from 'react-icons/fa'
 
 const ContactPage = () => {
   return (
-    <Layout>
+    <Layout className={"Contact Us"}>
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold mb-8 text-center">Get in touch</h1>
         <div className="flex flex-col md:flex-row items-start space-y-8 md:space-y-0 md:space-x-8">
