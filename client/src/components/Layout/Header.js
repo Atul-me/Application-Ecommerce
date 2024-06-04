@@ -1,7 +1,19 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useAuth } from "../../context/auth";
+import toast from "react-hot-toast";
 
 const Header = () => {
+  const [auth, setAuth] = useAuth();
+
+  const handleLogout = () => {
+    setAuth({
+      ...auth, user:null,token:'',
+    });
+    localStorage.removeItem("auth");
+    toast.success('Logout Successfully')
+  }
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -21,7 +33,10 @@ const Header = () => {
               className="h-10 w-10 rounded-full"
               alt="Flowbite Logo"
             />
-            <Link to="/" className="self-center text-2xl font-bold whitespace-nowrap dark:text-white">
+            <Link
+              to="/"
+              className="self-center text-2xl font-bold whitespace-nowrap dark:text-white"
+            >
               Daily Needs & Services
             </Link>
           </NavLink>
@@ -79,30 +94,50 @@ const Header = () => {
                   Categories
                 </NavLink>
               </li>
-              <li>
-                <NavLink
-                  to="/register"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "block  text-blue-300 rounded bg-indigo-950"
-                      : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                  }
-                >
-                  Register
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/login"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "block  text-blue-300 rounded bg-indigo-950"
-                      : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                  }
-                >
-                  Login
-                </NavLink>
-              </li>
+              {!auth.user ? (
+                <>
+                  <li>
+                    <NavLink
+                      to="/register"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "block  text-blue-300 rounded bg-indigo-950"
+                          : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                      }
+                    >
+                      Register
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/login"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "block  text-blue-300 rounded bg-indigo-950"
+                          : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                      }
+                    >
+                      Login
+                    </NavLink>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    <NavLink
+                      onClick={handleLogout}
+                      to="/login"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "block  text-blue-300 rounded bg-indigo-950"
+                          : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                      }
+                    >
+                      logout
+                    </NavLink>
+                  </li>
+                </>
+              )}
               <li>
                 <NavLink
                   to="/cart"

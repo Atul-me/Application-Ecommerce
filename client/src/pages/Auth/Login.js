@@ -4,12 +4,15 @@ import toast from 'react-hot-toast';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import Layout from '../../components/Layout/Layout';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/auth';
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+
+  const [auth, setAuth] = useAuth()
 
   const navigate = useNavigate();
 
@@ -29,6 +32,12 @@ const Login = () => {
       );
       if (response && response.data.success) {
         toast.success(response.data.message);
+        setAuth({
+          ...auth,
+          user: response.data.user,
+          token: response.data.token,
+        });
+        localStorage.setItem("auth",JSON.stringify(response.data));
         navigate('/');
       } else {
         toast.error(response.data.message);

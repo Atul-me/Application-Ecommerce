@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+// import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import Layout from "../../components/Layout/Layout";
 import { useNavigate } from "react-router-dom";
 
@@ -43,23 +43,23 @@ const Register = () => {
     }
   };
 
-  const handleGoogleSuccess = async (credentialResponse) => {
-    try {
-      const result = await axios.post("https:/localhsot:5000/auth/google", {
-        tokenId: credentialResponse.credential,
-      });
-      toast.success("Google login successful!");
-      console.log(result.data);
-    } catch (error) {
-      toast.error("Google login failed!");
-      console.error(error);
-    }
-  };
+  // const handleGoogleSuccess = async (credentialResponse) => {
+  //   try {
+  //     const result = await axios.post("https:/localhsot:5000/auth/google", {
+  //       tokenId: credentialResponse.credential,
+  //     });
+  //     toast.success("Google login successful!");
+  //     console.log(result.data);
+  //   } catch (error) {
+  //     toast.error("Google login failed!");
+  //     console.error(error);
+  //   }
+  // };
 
-  const handleGoogleFailure = (error) => {
-    toast.error("Google login failed!");
-    console.error(error);
-  };
+  // const handleGoogleFailure = (error) => {
+  //   toast.error("Google login failed!");
+  //   console.error(error);
+  // };
 
   return (
     <Layout title="Register">
@@ -145,14 +145,14 @@ const Register = () => {
               Register
             </button>
           </form>
-          <div className="mt-6 w-full flex justify-center">
+          {/* <div className="mt-6 w-full flex justify-center">
             <GoogleOAuthProvider clientId="your-google-client-id">
               <GoogleLogin
                 onSuccess={handleGoogleSuccess}
                 onError={handleGoogleFailure}
               />
             </GoogleOAuthProvider>
-          </div>
+          </div> */}
         </div>
       </div>
     </Layout>
