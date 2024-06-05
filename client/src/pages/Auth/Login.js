@@ -79,6 +79,7 @@ const Login = () => {
           />
         </div>
         <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-6 bg-white rounded-lg shadow-lg">
+        <h4 className='text-center font-semibold'>Welcome Back</h4>
           <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-md">
             <div>
               <label className="block text-sm font-medium text-gray-700">
@@ -111,6 +112,13 @@ const Login = () => {
               className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Login
+            </button>
+            <button
+              type="button"
+              onClick={() => {navigate('/forgot-password')}}
+              className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-300 hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-200"
+            >
+              Forgot Password
             </button>
           </form>
           <div className="mt-6 w-full flex justify-center">
