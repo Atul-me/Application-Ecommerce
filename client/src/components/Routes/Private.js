@@ -10,17 +10,20 @@ export default function PrivateRoute(){
 
     useEffect(() => {
         const authCheck = async() => {
-            const res = await axios.get("/api/v1/auth/user-auth");
-            if(res.data.ok){
-                setOk(true)
-            }else{
-                setOk(false)
+            try {
+                const res = await axios.get(`${process.env.REACT_APP_API}/api/v1/auth/user-auth`);
+                if(res.data.ok){
+                    setOk(true);
+                } else {
+                    setOk(false);
+                }
+            } catch (error) {
+                setOk(false);
+                console.error("Auth check failed:", error);
             }
-        }
+        };
         if(auth?.token) authCheck();
-    }, [auth?.token])
+    }, [auth?.token]);
 
-    return ok ? <Outlet /> : <Spinner/>
+    return ok ? <Outlet /> : <Spinner />;
 }
-
-//spinner- private- authroutes- layout

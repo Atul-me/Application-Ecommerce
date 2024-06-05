@@ -6,7 +6,7 @@ const Dashboard = () => {
     <Layout title={"Dashboard-Ecommerce App"}>
         <h1>Dashboard</h1>
     </Layout>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

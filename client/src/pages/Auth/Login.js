@@ -3,7 +3,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import Layout from '../../components/Layout/Layout';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/auth';
 
 const Login = () => {
@@ -15,6 +15,7 @@ const Login = () => {
   const [auth, setAuth] = useAuth()
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleChange = (e) => {
     setFormData({
@@ -38,7 +39,7 @@ const Login = () => {
           token: response.data.token,
         });
         localStorage.setItem("auth",JSON.stringify(response.data));
-        navigate('/');
+        navigate(location.state || "/");
       } else {
         toast.error(response.data.message);
       }
