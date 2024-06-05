@@ -5,19 +5,25 @@ import toast from "react-hot-toast";
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleLogout = () => {
     setAuth({
-      ...auth, user:null,token:'',
+      ...auth,
+      user: null,
+      token: "",
     });
     localStorage.removeItem("auth");
-    toast.success('Logout Successfully')
-  }
-
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+    toast.success("Logout Successfully");
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   return (
@@ -75,7 +81,7 @@ const Header = () => {
                   to="/"
                   className={({ isActive }) =>
                     isActive
-                      ? "block  text-blue-300 rounded bg-indigo-950"
+                      ? "block py-2 px-3 text-blue-300 rounded bg-indigo-950"
                       : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                   }
                 >
@@ -87,7 +93,7 @@ const Header = () => {
                   to="/categories"
                   className={({ isActive }) =>
                     isActive
-                      ? "block  text-blue-300 rounded bg-indigo-950"
+                      ? "block py-2 px-3 text-blue-300 rounded bg-indigo-950"
                       : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                   }
                 >
@@ -101,7 +107,7 @@ const Header = () => {
                       to="/register"
                       className={({ isActive }) =>
                         isActive
-                          ? "block  text-blue-300 rounded bg-indigo-950"
+                          ? "block py-2 px-3 text-blue-300 rounded bg-indigo-950"
                           : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                       }
                     >
@@ -113,7 +119,7 @@ const Header = () => {
                       to="/login"
                       className={({ isActive }) =>
                         isActive
-                          ? "block  text-blue-300 rounded bg-indigo-950"
+                          ? "block py-2 px-3 text-blue-300 rounded bg-indigo-950"
                           : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                       }
                     >
@@ -123,18 +129,45 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                  <li>
-                    <NavLink
-                      onClick={handleLogout}
-                      to="/login"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "block  text-blue-300 rounded bg-indigo-950"
-                          : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                      }
+                  <li className="relative">
+                    <button
+                      onClick={toggleDropdown}
+                      className="flex items-center gap-x-2 py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                     >
-                      logout
-                    </NavLink>
+                      {auth.user.name}
+                      <svg
+                        className={`w-4 h-4 transition-transform ${
+                          isDropdownOpen ? "rotate-180" : ""
+                        }`}
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="m6 9 6 6 6-6" />
+                      </svg>
+                    </button>
+                    {isDropdownOpen && (
+                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg dark:bg-gray-800">
+                        <NavLink
+                          to="/dashboard"
+                          className="block px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                        >
+                          Dashboard
+                        </NavLink>
+                        <button
+                          onClick={handleLogout}
+                          className="block w-full text-left px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                        >
+                          Logout
+                        </button>
+                      </div>
+                    )}
                   </li>
                 </>
               )}
@@ -143,7 +176,7 @@ const Header = () => {
                   to="/cart"
                   className={({ isActive }) =>
                     isActive
-                      ? "block  text-blue-300 rounded bg-indigo-950"
+                      ? "block py-2 px-3 text-blue-300 rounded bg-indigo-950"
                       : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                   }
                 >
