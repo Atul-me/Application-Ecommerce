@@ -14,9 +14,9 @@ const Dashboard = () => {
           </div>
           <div className="col-span-9">
             <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-md font-bold">Admin Name: {auth?.user?.name}</h3>
-              <h3 className="text-md font-bold">Admin Email: {auth?.user?.email}</h3>
-              <h3 className="text-md font-bold">Admin Phone: {auth?.user?.phone}</h3>
+              <h3 className="text-md font-bold">User Name: {auth?.user?.name}</h3>
+              <h3 className="text-md font-bold">User Email: {auth?.user?.email}</h3>
+              <h3 className="text-md font-bold">User Phone: {auth?.user?.phone}</h3>
             </div>
           </div>
         </div>
