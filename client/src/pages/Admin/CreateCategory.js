@@ -32,7 +32,7 @@ const CreateCategory = () => {
           </div>
           <div className="col-span-9">
             <div className="bg-white p-6 rounded-lg shadow-md">
-              <h1 className="text-center">Manage Category : 5:31</h1>
+              <h1 className="text-center">Manage Category : 5=31</h1>
               <div className="">
                 <div className="relative overflow-x-auto">
                   <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
