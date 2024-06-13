@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
     name:{
         type: String,
         required: true,
-        trim: true //remove white spaces
+        trim: true //remove white spaces -- increase the loadup speed || save spaces
     },
     email:{
         type:String,
