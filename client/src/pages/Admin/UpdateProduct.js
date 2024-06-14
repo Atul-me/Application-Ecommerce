@@ -65,30 +65,38 @@ const UpdateProduct = () => {
       productData.append("description", description);
       productData.append("price", price);
       productData.append("quantity", quantity);
-      photo && productData.append("photo", photo);
+      if (photo) productData.append("photo", photo);
       productData.append("category", category);
       productData.append("shipping", shipping);
-
-      const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/product/update-product/${id}`, productData);
+  
+      const { data } = await axios.put(
+        `${process.env.REACT_APP_API}/api/v1/product/update-product/${id}`,
+        productData
+      );
       if (data?.success) {
-        toast.error(data?.message);
-      } else {
         toast.success("Product updated successfully");
         navigate("/dashboard/admin/products");
+      } else {
+        toast.error(data?.message);
       }
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
     }
   };
+  
 
   const handleDelete = async () => {
     try {
-      let answer = window.prompt("Are You Sure want to delete this product?");
+      const answer = window.confirm("Are you sure you want to delete this product?");
       if (!answer) return;
-      const { data } = await axios.delete(`/api/v1/product/delete-product/${id}`);
-      toast.success("Product Deleted Successfully");
-      navigate("/dashboard/admin/products");
+      const { data } = await axios.delete(`${process.env.REACT_APP_API}/api/v1/product/delete-product/${id}`);
+      if (data?.success) {
+        toast.success("Product Deleted Successfully");
+        navigate("/dashboard/admin/products");
+      } else {
+        toast.error(data?.message);
+      }
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");

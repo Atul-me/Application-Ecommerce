@@ -12,7 +12,7 @@ import formidable from "express-formidable";
 
 const router = express.Router();
 
-//routes
+// Create product route
 router.post(
   "/create-product",
   requireSignIn,
@@ -21,23 +21,25 @@ router.post(
   createProductController
 );
 
+// Update product route
 router.put(
-    "/update-product/:pid",
-    requireSignIn,
-    isAdmin,
-    formidable(),
-    updateProductController
-  );
+  "/update-product/:pid",
+  requireSignIn,
+  isAdmin,
+  formidable(),
+  updateProductController
+);
 
-//get-products
+// Get all products route
 router.get("/get-product", getProductController);
 
-//get single product
+// Get single product route
 router.get("/get-product/:slug", getSingleProductController);
 
-//get product photo
+// Get product photo route
 router.get("/product-photo/:pid", productPhotoController);
 
-//delete product
-router.delete('/product/:pid', deleteProductController)
+// Delete product route
+router.delete('/product/:pid', deleteProductController);
+
 export default router;
