@@ -4,9 +4,12 @@ import { useAuth } from "../../context/auth";
 import toast from "react-hot-toast";
 import SearchInput from "../Form/SearchInput";
 import useCategory from "../../hooks/useCategory";
+import { useCart } from "../../context/cart";
+import { Badge } from "antd";
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
+  const [cart] = useCart()
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const categories = useCategory();
@@ -177,6 +180,7 @@ const Header = () => {
               </li>
             )}
             <li>
+              <Badge count={cart?.length} showZero>
               <NavLink
                 to="/cart"
                 className={({ isActive }) =>
@@ -185,8 +189,9 @@ const Header = () => {
                     : "py-2 px-3 text-gray-900 dark:text-white hover:text-blue-700 dark:hover:text-blue-500"
                 }
               >
-                Cart(0)
+                Cart
               </NavLink>
+              </Badge>
             </li>
           </ul>
         </div>
