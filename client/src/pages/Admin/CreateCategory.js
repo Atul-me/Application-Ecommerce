@@ -3,7 +3,7 @@ import AdminMenu from "../../components/Layout/AdminMenu";
 import Layout from "../../components/Layout/Layout";
 import toast from "react-hot-toast";
 import axios from "axios";
-import CategoryForm from "../../components/Form.js/CategoryForm";
+import CategoryForm from "../../components/Form/CategoryForm";
 import { Modal } from "antd";
 
 const CreateCategory = () => {
