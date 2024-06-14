@@ -13,8 +13,7 @@ const CreateCategory = () => {
   const [selected, setSelected] = useState(null);
   const [updatedName, setUpdatedName] = useState("");
 
- 
-  const handleSubmit = async (e) => {
+ const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/category/create-category`, { name });
