@@ -28,6 +28,13 @@ const AdminMenu = () => {
           Products
         </NavLink>
         <NavLink
+          to="/dashboard/admin/orders"
+          className="text-blue-500 hover:text-blue-700"
+          activeClassName="font-bold text-blue-700"
+        >
+          Orders
+        </NavLink>
+        <NavLink
           to="/dashboard/admin/users"
           className="text-blue-500 hover:text-blue-700"
           activeClassName="font-bold text-blue-700"

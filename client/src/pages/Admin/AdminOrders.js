@@ -1,17 +1,26 @@
 import React, { useState, useEffect } from "react";
-import UserMenu from "../../components/Layout/UserMenu";
-import Layout from "./../../components/Layout/Layout";
 import axios from "axios";
+import AdminMenu from "../../components/Layout/AdminMenu";
+import Layout from "../../components/Layout/Layout";
 import { useAuth } from "../../context/auth";
 import moment from "moment";
+import { Select } from "antd";
+const { Option } = Select;
 
-const Orders = () => {
+const AdminOrders = () => {
+  const [status, setStatus] = useState([
+    "Not Process",
+    "Processing",
+    "Shipped",
+    "Delivered",
+    "Cancelled",
+  ]);
   const [orders, setOrders] = useState([]);
   const [auth, setAuth] = useAuth();
 
   const getOrders = async () => {
     try {
-      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/auth/orders`);
+      const { data } = await axios.get("/api/v1/auth/all-orders");
       setOrders(data);
     } catch (error) {
       console.log(error);
@@ -24,12 +33,23 @@ const Orders = () => {
     }
   }, [auth?.token]);
 
+  const handleChange = async (orderId, value) => {
+    try {
+      const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/auth/order-status/${orderId}`, {
+        status: value,
+      });
+      getOrders();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <Layout title={"Your Orders"}>
+    <Layout title={"All Orders Data"}>
       <div className="container mx-auto mt-8 p-3">
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-12 md:col-span-3">
-            <UserMenu />
+            <AdminMenu />
           </div>
           <div className="col-span-12 md:col-span-9">
             <h1 className="text-center text-2xl font-semibold mb-4">All Orders</h1>
@@ -63,19 +83,30 @@ const Orders = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                         {i + 1}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {o?.status}
+                      <td className="px-6 py-4 whitespace-nowrap text-sm">
+                        <Select
+                          bordered={false}
+                          onChange={(value) => handleChange(o._id, value)}
+                          defaultValue={o?.status}
+                          className="w-full"
+                        >
+                          {status.map((s, i) => (
+                            <Option key={i} value={s}>
+                              {s}
+                            </Option>
+                          ))}
+                        </Select>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm">
                         {o?.buyer?.name}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm">
                         {moment(o?.createAt).fromNow()}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm">
                         {o?.payment.success ? "Success" : "Failed"}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm">
                         {o?.products?.length}
                       </td>
                     </tr>
@@ -108,4 +139,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default AdminOrders;
