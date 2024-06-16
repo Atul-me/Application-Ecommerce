@@ -12,7 +12,7 @@ connectDB();
 const app = express();
 
 //connect with DB
-
+//new add
 //middleware
 app.use(cors())
 app.use(express.json());
