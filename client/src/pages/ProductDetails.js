@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import Layout from "./../components/Layout/Layout";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const ProductDetails = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState({});
+  const [cart, setCart] = useState();
   const [relatedProducts, setRelatedProducts] = useState([]);
 
   useEffect(() => {
@@ -95,7 +97,10 @@ const ProductDetails = () => {
                   More Details
                 </button>
                 <button
-                  onClick={() => {} /* Handle Add to Cart */}
+                  onClick={ () => {
+                    setCart([...cart, p]);
+                    toast.success("Item Added to cart");
+                  }}
                   className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md shadow-md"
                 >
                   ADD TO CART

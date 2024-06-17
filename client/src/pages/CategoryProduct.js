@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout/Layout";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const CategoryProduct = () => {
   const params = useParams();
   const navigate = useNavigate();
+  const [cart, setCart] = useState();
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState(null); // Changed to null for better handling
 
@@ -57,7 +59,11 @@ const CategoryProduct = () => {
                   >
                     More Details
                   </button>
-                  <button className="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-md">
+                  <button className="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-md"
+                   onClick={() => {
+                    setCart([...cart, p]);
+                    toast.success("Item Added to cart");
+                  }}>
                     ADD TO CART
                   </button>
                 </div>
