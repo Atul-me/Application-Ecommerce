@@ -3,12 +3,13 @@ import Layout from "./../components/Layout/Layout";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useCart } from "../context/cart";
 
 const ProductDetails = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState({});
-  const [cart, setCart] = useState();
+  const [cart, setCart] = useCart();
   const [relatedProducts, setRelatedProducts] = useState([]);
 
   useEffect(() => {
@@ -55,7 +56,10 @@ const ProductDetails = () => {
             <div className="flex items-center justify-center mb-4">
               <span className="text-2xl font-semibold">Rs. {product.price}</span>
               <button
-                onClick={() => {} /* Handle Add to Cart */}
+                onClick={() => {
+                  setCart([...cart, product]);
+                  toast.success("Item Added to cart");
+                }}
                 className="ml-4 bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-md shadow-md"
               >
                 ADD TO CART
@@ -97,7 +101,7 @@ const ProductDetails = () => {
                   More Details
                 </button>
                 <button
-                  onClick={ () => {
+                  onClick={() => {
                     setCart([...cart, p]);
                     toast.success("Item Added to cart");
                   }}
@@ -108,9 +112,6 @@ const ProductDetails = () => {
               </div>
             </div>
           ))}
-          {relatedProducts.length === 0 && (
-            <p className="text-center col-span-full">No similar products found.</p>
-          )}
         </div>
       </div>
     </Layout>

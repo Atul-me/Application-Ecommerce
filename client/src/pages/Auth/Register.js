@@ -64,7 +64,7 @@ const Register = () => {
 
   return (
     <Layout title="Register">
-      <div className="flex flex-col md:flex-row h-screen justify-center items-center bg-gray-100 p-4">
+      <div className="mt-10 mb-8 flex flex-col md:flex-row h-screen justify-center items-center bg-white-100 p-4">
         <div className="w-full md:w-1/2 flex justify-center items-center mb-8 md:mb-0">
           <img
             src="https://res.cloudinary.com/dsvgtprgh/image/upload/v1717434860/ncaycnevjqji2wemjzut.jpg"
@@ -72,9 +72,9 @@ const Register = () => {
             className="object-cover h-full w-full md:w-10/12 rounded-lg shadow-lg"
           />
         </div>
-        <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-6 bg-white rounded-lg shadow-lg">
-        <h4 className='text-center font-semibold'>Register Now!</h4>
-          <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-md">
+        <div className="w-full md:w-1/3 flex flex-col justify-center items-center p-6 bg-white rounded-lg shadow-lg">
+          <h4 className="text-center font-semibold mb-4">Register Now!</h4>
+          <form onSubmit={handleSubmit} className="space-y-4 w-full">
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Name
