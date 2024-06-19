@@ -1,40 +1,64 @@
-import React from "react";
-import Layout from "./../components/Layout/Layout";
-import { useCart } from "../context/cart";
-import { useAuth } from "../context/auth";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import Layout from './../components/Layout/Layout';
+import { useCart } from '../context/cart';
+import { useAuth } from '../context/auth';
+import { useNavigate } from 'react-router-dom';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import axios from 'axios';
 
 const CartPage = () => {
   const [auth, setAuth] = useAuth();
   const [cart, setCart] = useCart();
   const navigate = useNavigate();
 
-  // Calculate total price
   const totalPrice = () => {
     try {
       let total = 0;
       cart?.forEach((item) => {
         total += item.price;
       });
-      return total.toLocaleString("en-US", {
-        style: "currency",
-        currency: "USD",
-      });
+      return total.toFixed(2);
     } catch (error) {
       console.log(error);
     }
   };
 
-  // Remove item from cart
   const removeCartItem = (pid) => {
     try {
       let myCart = [...cart];
       let index = myCart.findIndex((item) => item._id === pid);
       myCart.splice(index, 1);
       setCart(myCart);
-      localStorage.setItem("cart", JSON.stringify(myCart));
+      localStorage.setItem('cart', JSON.stringify(myCart));
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handlePaymentSuccess = async (details, data) => {
+    const { paymentID, payerID } = data;
+    const totalAmount = totalPrice();
+    const userId = auth?.user?._id;
+
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_API}/api/v1/payment/execute-payment`, {
+        paymentID,
+        payerID,
+        cart,
+        totalAmount,
+        userId,
+      });
+
+      if (res.data.message === 'Payment successful') {
+        setCart([]);
+        localStorage.removeItem('cart');
+        navigate('/success');
+      } else {
+        navigate('/failure');
+      }
+    } catch (error) {
+      console.error('Error executing payment: ', error);
+      navigate('/failure');
     }
   };
 
@@ -48,9 +72,9 @@ const CartPage = () => {
           <h4 className="text-center mb-4">
             {cart?.length
               ? `You have ${cart.length} items in your cart ${
-                  auth?.token ? "" : ", please login to checkout"
+                  auth?.token ? '' : ', please login to checkout'
                 }`
-              : "Your cart is empty"}
+              : 'Your cart is empty'}
           </h4>
 
           <div className="grid md:grid-cols-2 gap-4">
@@ -119,32 +143,61 @@ const CartPage = () => {
                 <hr className="my-2" />
                 <div className="flex justify-between items-center my-2">
                   <span className="font-medium">Total:</span>
-                  <span className="font-semibold">{totalPrice()}</span>
+                  <span className="font-semibold">${totalPrice()}</span>
                 </div>
               </div>
 
               <div className="bg-white shadow-md rounded-lg p-4">
                 {auth?.user?.address ? (
                   <>
-                    <h3 className="text-lg font-bold mb-3">Current Address</h3>
-                    <p className="mb-2">{auth?.user?.address}</p>
+                    <h2 className="text-xl font-bold mb-2">Delivery Address</h2>
+                    <p>{auth?.user?.address}</p>
                     <button
-                      className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md"
-                      onClick={() => navigate("/dashboard/user/profile")}
+                      className="mt-2 text-blue-600 hover:text-blue-800"
+                      onClick={() => navigate('/dashboard/user/profile')}
                     >
                       Update Address
                     </button>
                   </>
                 ) : (
                   <button
-                    className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md"
-                    onClick={() => navigate("/login", { state: "/cart" })}
+                    className="text-blue-600 hover:text-blue-800"
+                    onClick={() =>
+                      auth?.token
+                        ? navigate('/dashboard/user/profile')
+                        : navigate('/login', {
+                            state: '/cart',
+                          })
+                    }
                   >
-                    Please Login to Checkout
+                    {auth?.token ? 'Update Address' : 'Login to Checkout'}
                   </button>
                 )}
               </div>
             </div>
+          </div>
+
+          <div className="mt-6">
+            <PayPalScriptProvider
+              options={{
+                'client-id': process.env.REACT_APP_PAYPAL_CLIENT_ID,
+                currency: 'USD',
+              }}
+            >
+              <PayPalButtons
+                createOrder={async (data, actions) => {
+                  const totalAmount = totalPrice();
+                  const res = await axios.post(`${process.env.REACT_APP_API}/api/v1/payment/create-payment`, {
+                    cart,
+                    totalAmount,
+                  });
+                  return res.data.paymentID;
+                }}
+                onApprove={async (data, actions) => {
+                  return handlePaymentSuccess(data);
+                }}
+              />
+            </PayPalScriptProvider>
           </div>
         </div>
       </div>
